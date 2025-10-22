@@ -1,0 +1,50 @@
+﻿using AutoMapper;
+using Store.G02.Domain.Contracts;
+using Store.G02.Domain.Entities.Products;
+using Store.G02.Services.Abstractions.Products;
+using Store.G02.Shared.DTOs.Products;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Store.G02.Services.Products
+{
+    public class ProductService(IUnitOfWork _unitofwork , IMapper _mapper) : IProductService
+    {
+      
+
+        public async Task<IEnumerable<ProductResponse>> GetAllProductsAsync()
+        {
+            var products = await _unitofwork.GetRepository<int, Product>().GetAllAsync();
+            var result = _mapper.Map<IEnumerable<ProductResponse>>(products);
+            return result;
+        }
+
+        public async Task<ProductResponse> GetProductByIdAsync(int id)
+        {
+            var products = await _unitofwork.GetRepository<int, ProductType>().GetAsync(id);
+            var result = _mapper.Map<ProductResponse>(products);
+            return result;
+
+        }
+
+        public async Task<IEnumerable<BrandTypeResponse>> GetAllTypesAsync()
+        {
+            var types = await _unitofwork.GetRepository<int, ProductType>().GetAllAsync();
+            var result = _mapper.Map<IEnumerable<BrandTypeResponse>>(types);
+            return result;
+        }
+
+        public async Task<IEnumerable<BrandTypeResponse>> GetAllBrandsAsync()
+        {
+            var brands = await _unitofwork.GetRepository<int, Product>().GetAllAsync();
+            var result = _mapper.Map<IEnumerable<BrandTypeResponse>>(brands);
+            return result;
+
+        }
+
+       
+    }
+}
